@@ -1,0 +1,5 @@
+import {test,expect} from '@playwright/test';
+test('renders the test target',async({page})=>{await page.goto('/');await expect(page.getByRole('heading',{name:/Quality, made visible/})).toBeVisible();});
+test('shows validation errors',async({page})=>{await page.goto('/');await page.getByRole('button',{name:/Validate registration/}).click();await expect(page.locator('#feedback')).toContainText('Full name is required.');});
+test('accepts valid inputs',async({page})=>{await page.goto('/');await page.locator('#name').fill('Alex Morgan');await page.locator('#email').fill('alex@example.com');await page.locator('#password').fill('securePass123');await page.locator('#confirm').fill('securePass123');await page.getByRole('button',{name:/Validate registration/}).click();await expect(page.locator('#feedback')).toContainText('validation passed');});
+test('reset clears fields',async({page})=>{await page.goto('/');await page.locator('#name').fill('Alex');await page.getByRole('button',{name:/Clear fields/}).click();await expect(page.locator('#name')).toHaveValue('');});
